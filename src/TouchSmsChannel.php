@@ -20,15 +20,13 @@ class TouchSmsChannel
     {
         $to = $notifiable->routeNotificationFor('touchsms');
 
-
-        if (!$to) {
+        if (! $to) {
             $to = $notifiable->routeNotificationFor(TouchSmsChannel::class);
         }
 
-        if (!$to) {
+        if (! $to) {
             return;
         }
-
 
         $message = $notification->toTouchsms($notifiable);
 
@@ -36,7 +34,7 @@ class TouchSmsChannel
             $message = new TouchSmsMessage($message);
         }
 
-        if (!$message instanceof TouchSmsMessage) {
+        if (! $message instanceof TouchSmsMessage) {
             return;
         }
 

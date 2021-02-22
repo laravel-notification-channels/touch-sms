@@ -20,8 +20,8 @@ class TouchSmsServiceProvider extends ServiceProvider implements DeferrableProvi
             }
 
             return new touchSMS(
-                $app['config']['services.touchsms.token_id'],
                 $app['config']['services.touchsms.access_token'],
+                $app['config']['services.touchsms.token_id'],
                 $app['config']['services.touchsms.sandbox'] ?? false
             );
         });

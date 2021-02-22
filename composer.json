@@ -38,7 +38,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "NotificationChannels\\TouchSms\\TouchSmsChannel"
+                "NotificationChannels\\TouchSms\\TouchSmsServiceProvider"
             ]
         }
     },

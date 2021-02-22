@@ -2,10 +2,11 @@
 
 namespace NotificationChannels\TouchSms;
 
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use TouchSMS\TouchSMS\touchSMS;
 
-class TouchSmsServiceProvider extends ServiceProvider
+class TouchSmsServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register the application services.
@@ -24,5 +25,10 @@ class TouchSmsServiceProvider extends ServiceProvider
                 $app['config']['services.touchsms.sandbox'] ?? false
             );
         });
+    }
+
+    public function provides()
+    {
+        return [touchSMS::class];
     }
 }

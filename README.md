@@ -60,7 +60,7 @@ class AccountApproved extends Notification
         return [TouchSmsChannel::class];
     }
 
-    public function toSmsbroadcast($notifiable)
+    public function toTouchsms($notifiable)
     {
         return (new TouchSmsMessage)
             ->content("Task #{$notifiable->id} is complete!");

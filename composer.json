@@ -35,6 +35,13 @@
         "test": "phpunit",
         "test:coverage": "phpunit --coverage-text --coverage-clover=coverage.clover"
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "NotificationChannels\\TouchSms\\TouchSmsChannel"
+            ]
+        }
+    },
     "config": {
         "sort-packages": true
     }

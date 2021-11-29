@@ -6,7 +6,7 @@
 [![StyleCI](https://styleci.io/repos/339892204/shield)](https://styleci.io/repos/339892204)
 [![Total Downloads](https://img.shields.io/packagist/dt/laravel-notification-channels/touch-sms.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/touch-sms)
 
-📲  TouchSMS Notifications Channel for Laravel
+📲  [TouchSMS](https://touchsms.com.au) Notifications Channel for Laravel
 
 ## Contents
 

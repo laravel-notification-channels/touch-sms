@@ -22,11 +22,11 @@ class TouchSmsChannel
     {
         $to = $notifiable->routeNotificationFor('touchsms');
 
-        if (!$to) {
+        if (! $to) {
             $to = $notifiable->routeNotificationFor(TouchSmsChannel::class);
         }
 
-        if (!$to) {
+        if (! $to) {
             return;
         }
 
@@ -36,7 +36,7 @@ class TouchSmsChannel
             $message = new TouchSmsMessage($message);
         }
 
-        if (!$message instanceof TouchSmsMessage) {
+        if (! $message instanceof TouchSmsMessage) {
             return;
         }
 
@@ -55,9 +55,9 @@ class TouchSmsChannel
             'messages' => [$apiMessage],
         ]));
 
-        if (!$response || count($response->getData()->getErrors())) {
+        if (! $response || count($response->getData()->getErrors())) {
             $error = $response->getData()->getErrors()[0];
-            throw CouldNotSendNotification::touchSmsError($error->getErrorCode() . $error->getErrorHelp() ? ' - ' . $error->getErrorHelp() : '', 400);
+            throw CouldNotSendNotification::touchSmsError($error->getErrorCode().$error->getErrorHelp() ? ' - '.$error->getErrorHelp() : '', 400);
         }
     }
 }

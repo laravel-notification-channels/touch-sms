@@ -7,19 +7,22 @@ use DateTimeInterface;
 class TouchSmsMessage
 {
     /** @var string */
-    public $content;
+    public string $content;
 
     /** @var string|null */
-    public $sender;
+    public ?string $sender;
 
     /** @var string|null */
-    public $campaign;
+    public ?string $campaign;
 
     /** @var string|null */
-    public $reference;
+    public ?string $reference;
 
     /** @var DateTimeInterface|null */
-    public $sendAt;
+    public ?DateTimeInterface $sendAt;
+
+    /** @var array|null */
+    public ?array $metadata;
 
     public function __construct(string $content = '')
     {
@@ -50,6 +53,13 @@ class TouchSmsMessage
     public function campaign(string $campaign): self
     {
         $this->campaign = $campaign;
+
+        return $this;
+    }
+
+    public function metadata(array $metadata): self
+    {
+        $this->metadata = $metadata;
 
         return $this;
     }

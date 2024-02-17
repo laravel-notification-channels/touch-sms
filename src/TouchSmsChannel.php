@@ -4,14 +4,16 @@ namespace NotificationChannels\TouchSms;
 
 use Illuminate\Notifications\Notification;
 use NotificationChannels\TouchSms\Exceptions\CouldNotSendNotification;
-use TouchSMS\TouchSMS\touchSMS;
+use TouchSms\ApiClient\Api\Model\OutboundMessage;
+use TouchSms\ApiClient\Api\Model\SendMessageBody;
+use TouchSms\ApiClient\Client;
 
 class TouchSmsChannel
 {
-    /** @var touchSMS */
-    private $client;
+    /** @var Client */
+    private Client $client;
 
-    public function __construct(touchSMS $client)
+    public function __construct(Client $client)
     {
         $this->client = $client;
     }
@@ -38,15 +40,24 @@ class TouchSmsChannel
             return;
         }
 
-        $response = $this->client->sendMessage(
-            $message->content,
-            $to,
-            $message->reference,
-            $message->sender ?? config('services.touchsms.default_sender')
-        );
+        $apiMessage = (new OutboundMessage())
+            ->setTo($to)
+            ->setFrom($message->sender ?? config('services.touchsms.default_sender'))
+            ->setBody($message->content)
+            ->setReference($message->reference)
+            ->setMetadata($message->metadata);
 
-        if ($response->code !== 200) {
-            throw CouldNotSendNotification::touchSmsError($response->message ?? '', $response->code ?? 500);
+        if ($message->sendAt) {
+            $apiMessage->setDate($message->sendAt->format(\DateTimeInterface::ATOM));
+        }
+
+        $response = $this->client->sendMessages(new SendMessageBody([
+            'messages' => [$apiMessage],
+        ]));
+
+        if (! $response || count($response->getData()->getErrors())) {
+            $error = $response->getData()->getErrors()[0];
+            throw CouldNotSendNotification::touchSmsError($error->getErrorCode().$error->getErrorHelp() ? ' - '.$error->getErrorHelp() : '', 400);
         }
     }
 }

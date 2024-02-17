@@ -10,19 +10,19 @@ class TouchSmsMessage
     public string $content;
 
     /** @var string|null */
-    public ?string $sender;
+    public ?string $sender = null;
 
     /** @var string|null */
-    public ?string $campaign;
+    public ?string $campaign = null;
 
     /** @var string|null */
-    public ?string $reference;
+    public ?string $reference = null;
 
     /** @var DateTimeInterface|null */
-    public ?DateTimeInterface $sendAt;
+    public ?DateTimeInterface $sendAt = null;
 
     /** @var array|null */
-    public ?array $metadata;
+    public ?array $metadata = null;
 
     public function __construct(string $content = '')
     {

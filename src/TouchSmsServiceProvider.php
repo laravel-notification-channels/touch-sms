@@ -28,4 +28,9 @@ class TouchSmsServiceProvider extends ServiceProvider implements DeferrableProvi
                 );
             });
     }
+
+    public function provides(): array
+    {
+        return [Client::class];
+    }
 }

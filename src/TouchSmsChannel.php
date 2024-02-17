@@ -42,7 +42,7 @@ class TouchSmsChannel
 
         $apiMessage = (new OutboundMessage())
             ->setTo($to)
-            ->setFrom($message->sender ?? config('services.touchsms.default_sender'))
+            ->setFrom($message->sender ?? config('services.touchsms.default_sender') ?? 'SHARED_NUMBER')
             ->setBody($message->content)
             ->setReference($message->reference)
             ->setMetadata($message->metadata);
@@ -51,13 +51,13 @@ class TouchSmsChannel
             $apiMessage->setDate($message->sendAt->format(\DateTimeInterface::ATOM));
         }
 
-        $response = $this->client->sendMessages(new SendMessageBody([
-            'messages' => [$apiMessage],
-        ]));
+        $response = $this->client->sendMessages(
+            (new SendMessageBody())->setMessages([$apiMessage])
+        );
 
         if (! $response || count($response->getData()->getErrors())) {
             $error = $response->getData()->getErrors()[0];
-            throw CouldNotSendNotification::touchSmsError($error->getErrorCode().$error->getErrorHelp() ? ' - '.$error->getErrorHelp() : '', 400);
+            throw new CouldNotSendNotification($error->getErrorCode().($error->getErrorHelp() ? ' - '.$error->getErrorHelp() : ''), 400);
         }
     }
 }
